@@ -3,6 +3,7 @@
 import { SectionCard } from "@/components/shared/layout/SectionCard";
 import Input from "@/components/shared/input/Input";
 import Select from "@/components/shared/input/Select";
+import Switch from "@/components/shared/input/Switch";
 import type { LayoutDividerState } from "../types";
 
 type Props = { state: LayoutDividerState; update: <K extends keyof LayoutDividerState>(key: K, value: LayoutDividerState[K]) => void };
@@ -11,12 +12,7 @@ export default function AccessibilitySection({ state, update }: Props) {
   return <SectionCard title="Accessibility" subtitle="Accessibility controls for native layout/page-structure generation."><Input label="Landmark label" value={state.landmarkLabel} onChange={(value) => update("landmarkLabel", value)} />
 <Select label="Semantic role" value={state.role} options={[
   "presentation",
-  "group",
-  "region",
-  "main",
-  "banner",
-  "contentinfo",
-  "navigation",
   "separator"
-]} onChange={(value) => update("role", value)} /></SectionCard>;
+]} onChange={(value) => update("role", value)} />
+<Switch label="Decorative separator" checked={state.decorative} onChange={(value) => update("decorative", value)} /></SectionCard>;
 }
