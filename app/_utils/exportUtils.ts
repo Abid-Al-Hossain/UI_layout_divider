@@ -33,7 +33,7 @@ export default function LayoutDividerComponent() {
     height: isVertical ? state.length : state.thickness,
     borderRadius: 999,
     background: state.accent,
-    transition: state.motion ? "opacity 0.3s ease" : "none"
+    transition: state.transitionDuration > 0 ? "$1" : "none"
   };
 
   return (
