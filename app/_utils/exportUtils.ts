@@ -10,6 +10,9 @@ export function buildReactCode(state: LayoutDividerState) {
   return `import * as React from "react";
 
 const state = ${JSON.stringify(state, null, 2)};
+function resolveFont(s) { return s.fontBucket === "google" ? '"' + s.googleFontFamily + '", sans-serif' : "inherit"; }
+function buildShadow(s) { if (!s.shadowEnabled) return "none"; var hex = Math.round(s.shadowOpacity * 255).toString(16).padStart(2, "0"); return s.shadowX + "px " + s.shadowY + "px " + s.shadowBlur + "px " + s.shadowSpread + "px " + s.shadowColor + hex; }
+
 
 export default function LayoutDividerComponent() {
   const isVertical = state.orientation === "vertical";
@@ -22,8 +25,8 @@ export default function LayoutDividerComponent() {
     display: "grid",
     placeItems: "center",
     borderRadius: state.radius,
-    border: state.borderWidth + "px solid " + state.border,
-    boxShadow: "0 " + Math.round(state.shadow / 3) + "px " + state.shadow + "px rgba(0,0,0,.28)",
+    border: state.borderWidth + "px " + state.borderStyle + " " + (state.disabled && state.disabledUseCustomColors ? state.disabledBorder : state.border),
+    boxShadow: buildShadow(state),
     background: state.background,
     color: state.foreground,
     fontFamily: state.fontFamily
@@ -33,7 +36,7 @@ export default function LayoutDividerComponent() {
     height: isVertical ? state.length : state.thickness,
     borderRadius: 999,
     background: state.accent,
-    transition: state.transitionDuration > 0 ? "$1" : "none"
+    transition: state.transitionDuration > 0 ? "all " + state.transitionDuration + "ms " + state.transitionEasing : "none"
   };
 
   return (
